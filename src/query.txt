@@ -1,0 +1,33 @@
+#INSERT INTO behave_charact(stu,online_time,tools,date,up_down_bytes) SELECT fullpath,FROM_UNIXTIME(delete_time-create_time),tool,DATE(FROM_UNIXTIME(history.tstamp)),transfer_bytes FROM dp.history
+
+#UPDATE behave_charact, dp.history SET behave_charact.online_time = FROM_UNIXTIME(history.delete_time-history.create_time)
+#WHERE behave_charact.stu=dp.history.fullpath;
+
+#UPDATE behave_charact, dp.history SET behave_charact.date = DATE(FROM_UNIXTIME(history.tstamp))
+#WHERE behave_charact.stu=dp.history.fullpath;
+
+#UPDATE behave_charact, dp.history SET behave_charact.tools = history.tool 
+#WHERE behave_charact.stu=dp.history.fullpath;
+
+#UPDATE behave_charact, dp.history SET behave_charact.up_down_bytes = history.transfer_bytes
+#WHERE behave_charact.stu=dp.history.fullpath;
+
+UPDATE behave_charact a,
+(SELECT url_domain FROM dp.website
+GROUP BY fullpath
+ORDER BY count(url_domain) DESC) b,
+SET a.most_websites = b.
+;
+
+#UPDATE behave_charact a, 
+#(SELECT fullpath AS stu,count(tstamp) AS count FROM dp.im
+#WHERE dp.im.dir = 1
+#GROUP BY fullpath) b
+
+#SET a.im_frequency = b.count
+
+#WHERE a.stu = b.stu;
+
+SELECT b.fullpath, b.url_domain,max(count(b.url_domain))
+FROM (SELECT fullpath,url_domain FROM website GROUP BY fullpath) AS b
+GROUP BY b.url_domain;
